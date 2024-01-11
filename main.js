@@ -18,13 +18,11 @@ while (true) {
     l.setText(line);
 
     let tokens = l.tokenize();
-    console.log(tokens);
 
     let p = new Parser(tokens);
-    let nodedAst = p.parse();
+    let ast = p.parse();
 
-    console.log(inspect(nodedAst, null, 100));
-
+    console.log(ast);
 }
 
 readlineInterface.close();

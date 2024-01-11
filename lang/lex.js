@@ -56,7 +56,6 @@ export class Lexer {
             this.advance();
         }
 
-        tokens.push(new Token(consts.TokenType.EOF))
         return tokens;
     }
 }

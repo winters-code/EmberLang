@@ -11,14 +11,8 @@ export class NumberNode {
         this.value = value;
     }
 
-    add(o) {
-        return this.value + o.value;
-    }
-}
-
-export class OperatorNode {
-    constructor(operator) {
-        this.operator = operator
+    run() {
+        return this.value;
     }
 }
 
@@ -29,7 +23,19 @@ export class BinaryOperationNode {
         this.operator = operator;
     }
 
-    operate() {
-        return this.left[operationMethodHash[this.operator.operator]](this.right);
+    run() {
+        let leftVal = this.left.run();
+        let rightVal = this.right.run();
+        switch (this.operator.value) {
+            case '+':
+                return leftVal + rightVal;
+            case '-':
+                return leftVal - rightVal;
+            case '*':
+                return leftVal * rightVal;
+            case '/':
+                return leftVal / rightVal;
+        }
+        return 0;
     }
 }

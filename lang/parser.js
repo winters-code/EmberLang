@@ -7,38 +7,47 @@ export class Parser {
     constructor(tokens) {
         this.tokens = tokens;
         this.ast = null;
-        this.current_branch = null;
+        this.currentPos = -1;
+        this.currentToken = null;
+        this.advance();
     }
 
-    _genAST() {
-        this.ast = new AST(this.tokens);
-        this.current_branch = this.ast;
-        let res = false;
-        while (!res) {
-            res = this.current_branch
-                .expect(consts.TokenType.ARITH, (l0) => {
-                    this.current_branch = l0;
-                    l0.expect(consts.TokenType.NUM, (l1) => {
-                        this.current_branch = l1;
-                    })
-                })
-                .expect(consts.TokenType.LPAREN, (l0) => {
-                    l0.expect(consts.TokenType.NUM, (l1) => {
-                        this.current_branch = l1;
-                    })
-                })
-                .none();
+    advance() {
+        this.currentPos += 1;
+        this.currentToken = this.tokens[this.currentPos];
+    }
+
+    _genBinaryOperation(func, operators) {
+        let left = this[func]();
+        let node = null
+        // this.advance();
+
+        while (this.currentToken.type == consts.TokenType.ARITH && operators.includes(this.currentToken.value)) {
+            let operator = this.currentToken;
+            this.advance();
+            let right = this[func]();
+            node = new BinaryOperationNode(left, operator, right);
         }
+
+        return node || left;
     }
 
-    _genRunNode() {
-        
+    _factor() {
+        return new nodes.NumberNode(this.currentToken.value);
+    }
+
+    _md() {
+        return this._genBinaryOperation('_factor', ['*', '/']);
+    }
+
+    _as() {
+        return this._genBinaryOperation('_md', ['+', '-']);
     }
 
     parse() {
 
-        this._genAST();
-        return this._genRunNode();
+        this.ast = this._as();
+        return this.ast;
 
     }
 
