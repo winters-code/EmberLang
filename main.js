@@ -23,6 +23,7 @@ while (true) {
     let ast = p.parse();
 
     console.log(ast);
+    console.log(ast.run());
 }
 
 readlineInterface.close();

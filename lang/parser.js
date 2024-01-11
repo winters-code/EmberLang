@@ -22,18 +22,20 @@ export class Parser {
         let node = null
         // this.advance();
 
-        while (this.currentToken.type == consts.TokenType.ARITH && operators.includes(this.currentToken.value)) {
+        while (this.currentToken && this.currentToken.type == consts.TokenType.ARITH && operators.includes(this.currentToken.value)) {
             let operator = this.currentToken;
             this.advance();
             let right = this[func]();
-            node = new BinaryOperationNode(left, operator, right);
+            node = new nodes.BinaryOperationNode(left, operator, right);
         }
 
         return node || left;
     }
 
     _factor() {
-        return new nodes.NumberNode(this.currentToken.value);
+        let token = this.currentToken;
+        this.advance();
+        return new nodes.NumberNode(token.value);
     }
 
     _md() {
