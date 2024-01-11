@@ -1,6 +1,4 @@
 
-import { GenerateNode } from './node.js';
-
 export class AST {
     constructor(tokens, tokenIndex, parent=null) {
         this.tokens = tokens;
@@ -22,20 +20,8 @@ export class AST {
         return this;
     }
 
-    none(type, func) {
+    none() {
         return this.expects > 0 && this.tokens[this.tokenIndex + 1].type === 999;
     }
 
-}
-
-export class NodedAst {
-    constructor(ast, parent=null) {
-        this.children = [];
-
-        this.parent = parent;
-        this.node = GenerateNode(ast);
-        ast.children.forEach((e) => {
-            this.children.push(new NodedAst(e));
-        });
-    }
 }

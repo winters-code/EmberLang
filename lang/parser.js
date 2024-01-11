@@ -1,6 +1,7 @@
 
-import { AST, NodedAst } from './ast.js';
+import { AST } from './ast.js';
 import * as consts from './const.js';
+import * as nodes from './node.js';
 
 export class Parser {
     constructor(tokens) {
@@ -30,14 +31,14 @@ export class Parser {
         }
     }
 
-    _genNodedAST() {
-        return new NodedAst(this.ast);
+    _genRunNode() {
+        
     }
 
     parse() {
 
         this._genAST();
-        return this._genNodedAST();
+        return this._genRunNode();
 
     }
 

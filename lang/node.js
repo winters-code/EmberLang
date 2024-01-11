@@ -1,6 +1,4 @@
 
-import { TokenType } from './const.js';
-
 const operationMethodHash = {
     '+': 'add',
     '-': 'sub',
@@ -34,14 +32,4 @@ export class BinaryOperationNode {
     operate() {
         return this.left[operationMethodHash[this.operator.operator]](this.right);
     }
-}
-
-export function GenerateNode(ast) {
-    switch (ast.token.type) {
-        case TokenType.NUM:
-            return new NumberNode(ast.token.value);
-        case TokenType.ARITH:
-            return new BinaryOperationNode(ast.parent, ast.token.value, ast.children[0]);
-    }
-    return null;
 }
